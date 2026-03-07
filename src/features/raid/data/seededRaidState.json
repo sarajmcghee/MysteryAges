@@ -1,0 +1,134 @@
+{
+  "raidId": "raid-alpha",
+  "boss": {
+    "id": "boss-1",
+    "name": "The Regression Hydra",
+    "type": "feature",
+    "tier": 4,
+    "objective": "Ship the dashboard MVP with stable task orchestration.",
+    "victoryCondition": "All P1 and P2 tasks complete with zero blocked tasks.",
+    "mechanics": ["Dependency spikes", "Scope creep", "Context switching"],
+    "currentPhase": "prep",
+    "enrageTimerSec": 5400
+  },
+  "agents": [
+    {
+      "id": "agent-1",
+      "handle": "PIXELSMITH",
+      "role": "support",
+      "personality": "Visual perfectionist, fast at interaction polish.",
+      "skillTags": ["layout", "interaction", "a11y"],
+      "state": "working",
+      "status": "online",
+      "currentTaskId": "task-2",
+      "needs": ["Final copy for CTA labels"]
+    },
+    {
+      "id": "agent-2",
+      "handle": "STACKTANK",
+      "role": "tank",
+      "personality": "Calm under pressure, protects architecture boundaries.",
+      "skillTags": ["state", "routing", "api-contract"],
+      "state": "scouting",
+      "status": "online",
+      "needs": ["Backend contract draft"]
+    },
+    {
+      "id": "agent-3",
+      "handle": "HEALBYTE",
+      "role": "healer",
+      "personality": "Finds regressions before they spread.",
+      "skillTags": ["testing", "qa", "analytics"],
+      "state": "blocked",
+      "status": "busy",
+      "currentTaskId": "task-4",
+      "needs": ["Test data seed refresh", "Access to staging logs"]
+    },
+    {
+      "id": "agent-4",
+      "handle": "CRITDPS",
+      "role": "dps",
+      "personality": "Rapid execution, thrives on high-priority slices.",
+      "skillTags": ["typescript", "performance", "forms"],
+      "state": "idle",
+      "status": "online",
+      "needs": []
+    }
+  ],
+  "tasks": [
+    {
+      "id": "task-1",
+      "title": "Define raid store slices",
+      "description": "Create raid and UI slices with selectors.",
+      "bossId": "boss-1",
+      "assignedAgentId": "agent-2",
+      "status": "in_progress",
+      "priority": 1,
+      "updatedAt": "2026-03-01T00:00:00.000Z"
+    },
+    {
+      "id": "task-2",
+      "title": "Build task board interactions",
+      "description": "Inline controls for status, assignment, and priority.",
+      "bossId": "boss-1",
+      "assignedAgentId": "agent-1",
+      "status": "in_progress",
+      "priority": 1,
+      "updatedAt": "2026-03-01T00:00:00.000Z"
+    },
+    {
+      "id": "task-3",
+      "title": "Implement blocker resolution panel",
+      "description": "Surface blockers with fast resolve actions.",
+      "bossId": "boss-1",
+      "status": "todo",
+      "priority": 2,
+      "dependsOnTaskIds": ["task-1"],
+      "updatedAt": "2026-03-01T00:00:00.000Z"
+    },
+    {
+      "id": "task-4",
+      "title": "Audit timeline reliability",
+      "description": "Ensure all critical actions emit events.",
+      "bossId": "boss-1",
+      "assignedAgentId": "agent-3",
+      "status": "blocked",
+      "priority": 2,
+      "blockerReason": "Waiting on seeded event snapshots.",
+      "dependsOnTaskIds": ["task-1", "task-2"],
+      "updatedAt": "2026-03-01T00:00:00.000Z"
+    },
+    {
+      "id": "task-5",
+      "title": "Polish mobile raid layout",
+      "description": "Optimize panel order and readability under 900px.",
+      "bossId": "boss-1",
+      "status": "todo",
+      "priority": 3,
+      "dependsOnTaskIds": ["task-2"],
+      "updatedAt": "2026-03-01T00:00:00.000Z"
+    }
+  ],
+  "events": [
+    {
+      "id": "evt-1",
+      "timestamp": "2026-03-01T00:00:00.000Z",
+      "type": "task_assigned",
+      "taskId": "task-1",
+      "agentId": "agent-2",
+      "note": "Initial assignment: architecture split."
+    },
+    {
+      "id": "evt-2",
+      "timestamp": "2026-03-01T00:00:00.000Z",
+      "type": "task_status_changed",
+      "taskId": "task-4",
+      "agentId": "agent-3",
+      "note": "Blocked by missing snapshots."
+    }
+  ],
+  "selectedTaskId": "task-2",
+  "filter": {
+    "showOnlyBlocked": false
+  }
+}
