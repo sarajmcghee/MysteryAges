@@ -139,3 +139,15 @@ At a glance:
 3. Keep `Blocked` and `Unassigned` header badges near zero.
 4. Resolve blockers in `BlockerPanel` with explicit resolution notes.
 5. Use `RaidTimeline` to confirm every key decision is logged.
+
+## Dogma Theme Quick Tuning
+
+- Main hero component: `src/features/raid/components/HeroDogma.tsx`
+- Theme tokens and styling: `src/features/raid/components/dogma-theme.css`
+
+Fast tweaks:
+- Colors: edit `:root` vars in `dogma-theme.css` (`--dogma-bg`, `--dogma-sage`, `--dogma-forest`, `--dogma-wood`, `--dogma-line`).
+- Typography: edit `--dogma-serif` and `--dogma-sans` in `dogma-theme.css`.
+- Hero scale: adjust `.dogma-title` `font-size` clamp and `.dogma-hero` padding/min-height.
+- Motion intensity: tune `@keyframes dogma-enter`/`dogma-float` values or disable via `prefers-reduced-motion` block.
+- Reference image usage: place your Pixabay image at `public/dogma-reference.jpg` (or use another extension and update `illustrationSrc` in `HeroDogma`).

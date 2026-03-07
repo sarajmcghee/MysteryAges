@@ -8,6 +8,7 @@ import { TaskBoard } from "./TaskBoard";
 import { BlockerPanel } from "./BlockerPanel";
 import { TaskAssignmentModal } from "./TaskAssignmentModal";
 import { RaidTimeline } from "./RaidTimeline";
+import { HeroDogma } from "./HeroDogma";
 import type { ID } from "../types/raid";
 
 export function RaidPage() {
@@ -15,6 +16,7 @@ export function RaidPage() {
   const tasks = useRaidStore(selectTasks);
   const blockedTasks = useRaidStore(selectBlockedTasks);
   const unassignedTasks = useRaidStore(selectUnassignedTasks);
+  const agents = useRaidStore((state) => state.raid.agents);
 
   const [isAssignOpen, setAssignOpen] = useState(false);
   const [preferredAgentId, setPreferredAgentId] = useState<ID | undefined>();
@@ -31,9 +33,24 @@ export function RaidPage() {
     setAssignOpen(true);
   };
 
+  const openCommandDeck = () => {
+    const commandDeck = document.getElementById("raid-command-deck");
+    if (commandDeck) {
+      commandDeck.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   return (
     <main className="raid-page">
-      <header className="raid-header">
+      <HeroDogma
+        agentsOnline={agents.filter((agent) => agent.status === "online" || agent.status === "busy").length}
+        activeBoss={boss.name}
+        blockers={blockedTasks.length}
+        onPrimaryAction={openCommandDeck}
+        onSecondaryAction={() => openAssign()}
+      />
+
+      <header id="raid-command-deck" className="raid-header">
         <div className="stack-xs">
           <h1>Party Leader Console</h1>
           <p className="muted">Coordinate agents, clear blockers, and close the boss objective before enrage.</p>
