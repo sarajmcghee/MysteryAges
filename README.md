@@ -112,6 +112,7 @@ Create `.env.local`:
 ```bash
 VITE_API_BASE_URL=http://localhost:8787
 VITE_ALLOWED_GITHUB_LOGIN=your-github-username
+VITE_AUTH_GATE_ENABLED=true
 ```
 
 Required backend endpoints:
@@ -119,6 +120,10 @@ Required backend endpoints:
 - `GET /auth/github/login?redirect=<url>` -> starts GitHub OAuth flow and returns to the app
 
 The React app blocks access unless `user.login` matches `VITE_ALLOWED_GITHUB_LOGIN`.
+
+Local-only bypass:
+- Set `VITE_AUTH_GATE_ENABLED=false` in `.env.local` to skip the auth gate during local testing.
+- Keep it `true` for deployed builds.
 
 ### Build Production Bundle
 ```bash
@@ -192,3 +197,10 @@ Fast tweaks:
 - Hero scale: adjust `.dogma-title` `font-size` clamp and `.dogma-hero` padding/min-height.
 - Motion intensity: tune `@keyframes dogma-enter`/`dogma-float` values or disable via `prefers-reduced-motion` block.
 - Reference image usage: place your Pixabay image at `public/dogma-reference.jpg` (or use another extension and update `illustrationSrc` in `HeroDogma`).
+
+## 3D Tavern Hero
+
+- Model asset root: `public/models/tavern/`
+- Current checked-in source asset folder: `public/models/tavern/Cozy Tavern - First Floor 2/`
+- Full integration notes, attribution requirements, troubleshooting, and fallback behavior:
+  - `docs/tavern-hero-3d.md`

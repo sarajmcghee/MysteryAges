@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { Suspense, lazy, useMemo, useState } from "react";
 import { useRaidStore } from "../state/raidStore";
 import { selectBlockedTasks, selectBoss, selectTasks, selectUnassignedTasks } from "../state/selectors";
 import { Badge, Button } from "../../../shared/ui/primitives";
@@ -8,10 +8,13 @@ import { TaskBoard } from "./TaskBoard";
 import { BlockerPanel } from "./BlockerPanel";
 import { TaskAssignmentModal } from "./TaskAssignmentModal";
 import { RaidTimeline } from "./RaidTimeline";
-import { HeroDogma } from "./HeroDogma";
 import { AgentChatShell } from "../../agents/components/AgentChatShell";
 import { AgentAvatar } from "../../agents/components/AgentAvatar";
 import type { ID } from "../types/raid";
+
+const Hero3D = lazy(() =>
+  import("../../hero3d/components/Hero3D").then((module) => ({ default: module.Hero3D }))
+);
 
 export function RaidPage() {
   const boss = useRaidStore(selectBoss);
@@ -35,22 +38,11 @@ export function RaidPage() {
     setAssignOpen(true);
   };
 
-  const openCommandDeck = () => {
-    const commandDeck = document.getElementById("raid-command-deck");
-    if (commandDeck) {
-      commandDeck.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  };
-
   return (
     <main className="raid-page">
-      <HeroDogma
-        agentsOnline={agents.filter((agent) => agent.status === "online" || agent.status === "busy").length}
-        activeBoss={boss.name}
-        blockers={blockedTasks.length}
-        onPrimaryAction={openCommandDeck}
-        onSecondaryAction={() => openAssign()}
-      />
+      <Suspense fallback={<section className="hero3d hero3d-fallback" aria-label="Tavern hero loading" />}>
+        <Hero3D />
+      </Suspense>
 
       <header id="raid-command-deck" className="raid-header">
         <div className="stack-xs">

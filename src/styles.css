@@ -54,6 +54,94 @@ a {
   padding: 24px;
 }
 
+.hero3d {
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  border: 1px solid color-mix(in srgb, #2f3f31 24%, transparent);
+  box-shadow: 0 20px 36px rgba(39, 34, 22, 0.22);
+  background: #17110d;
+  min-height: 420px;
+}
+
+.hero3d-canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.hero3d-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-content: end;
+  gap: 8px;
+  padding: clamp(14px, 3vw, 28px);
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(14, 10, 8, 0.1) 0%, rgba(14, 10, 8, 0.72) 74%, rgba(14, 10, 8, 0.88) 100%),
+    radial-gradient(circle at 14% 8%, rgba(255, 250, 241, 0.18) 0%, rgba(255, 250, 241, 0) 35%);
+}
+
+.hero3d-kicker {
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: #d8c4a3;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.hero3d-overlay h1 {
+  font-family: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  font-size: clamp(1.8rem, 4.4vw, 3.8rem);
+  line-height: 1.03;
+  color: #fff5e9;
+  margin: 0;
+  text-shadow: 0 6px 26px rgba(0, 0, 0, 0.38);
+}
+
+.hero3d-overlay p {
+  margin: 0;
+  max-width: 48ch;
+  color: #f0dcc0;
+  font-size: clamp(0.96rem, 2vw, 1.2rem);
+  font-weight: 600;
+}
+
+.hero3d-attribution {
+  color: #dbc7a7;
+  font-size: 0.76rem;
+  opacity: 0.92;
+}
+
+.hero3d-loading {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  margin: 0;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 235, 206, 0.4);
+  background: rgba(19, 13, 10, 0.66);
+  color: #ffe5c1;
+  font-size: 0.78rem;
+  padding: 4px 10px;
+}
+
+.hero3d-fallback {
+  background:
+    radial-gradient(circle at 20% 0%, rgba(243, 180, 102, 0.35) 0%, rgba(243, 180, 102, 0) 40%),
+    linear-gradient(180deg, #25190f 0%, #17110d 100%);
+}
+
+.hero3d-fallback__scene {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 63% 30%, rgba(255, 211, 157, 0.2) 0%, rgba(255, 211, 157, 0) 26%),
+    radial-gradient(circle at 34% 64%, rgba(179, 112, 45, 0.18) 0%, rgba(179, 112, 45, 0) 33%),
+    linear-gradient(130deg, rgba(92, 55, 29, 0.75) 0%, rgba(40, 24, 14, 0.88) 100%);
+}
+
 .raid-header {
   border: 1px solid var(--line);
   border-radius: calc(var(--radius) + 6px);
@@ -528,6 +616,20 @@ a {
 @media (max-width: 900px) {
   .raid-page {
     padding: 12px;
+  }
+
+  .hero3d {
+    min-height: 280px;
+    border-radius: 18px;
+  }
+
+  .hero3d-overlay {
+    align-content: start;
+    padding-top: 16px;
+  }
+
+  .hero3d-overlay h1 {
+    font-size: clamp(1.45rem, 7vw, 2.2rem);
   }
 
   .auth-card {

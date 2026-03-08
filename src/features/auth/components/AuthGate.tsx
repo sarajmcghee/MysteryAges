@@ -19,7 +19,9 @@ export function AuthGate({ children }: PropsWithChildren) {
         <div className="auth-scene" aria-hidden="true">
           <img className="auth-scene__image" src={`${import.meta.env.BASE_URL}dogma-reference.jpg`} alt="" />
           <div className="auth-scene__veil" />
-          <p className="auth-scene__caption">You approach the Lantern & Ledger...</p>
+          <p className="auth-scene__caption">
+            You approach the Lantern & Ledger... Cozy Tavern - First Floor 2 by Nick Slough [CC-BY] via Poly Pizza
+          </p>
         </div>
 
         <div className="stack-sm">
