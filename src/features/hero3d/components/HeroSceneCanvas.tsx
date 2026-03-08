@@ -58,14 +58,14 @@ export function HeroSceneCanvas({ modelPath, lowPowerMode, isMobile = false, joy
   const [introDone, setIntroDone] = useState(false);
   const joystickOffset = useRef({ x: 0, y: 0 });
 
-  const introFrom: Vec3 = [0, 0.34, 2.95];
-  const introTo: Vec3 = [0, 0.35, 2.82];
+  const introFrom: Vec3 = [0, 0.48, 5.2];
+  const introTo: Vec3 = [0, 0.46, 4.85];
   const focusTarget: Vec3 = [0, 0.05, 1.2];
 
   return (
     <Canvas
       className="hero3d-canvas"
-      camera={{ position: introFrom, fov: lowPowerMode ? 54 : 50 }}
+      camera={{ position: introFrom, fov: lowPowerMode ? 66 : 62 }}
       dpr={lowPowerMode ? [1, 1.2] : [1, 1.5]}
       frameloop="demand"
       gl={{
@@ -102,7 +102,7 @@ export function HeroSceneCanvas({ modelPath, lowPowerMode, isMobile = false, joy
         panSpeed={0.62}
         zoomSpeed={0.5}
         rotateSpeed={0.45}
-        minDistance={1.1}
+        minDistance={1.8}
         maxDistance={10}
         minPolarAngle={Math.PI * 0.3}
         maxPolarAngle={Math.PI * 0.62}
