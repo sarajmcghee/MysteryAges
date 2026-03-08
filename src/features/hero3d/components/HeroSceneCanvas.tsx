@@ -1,12 +1,13 @@
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { AdaptiveDpr, OrbitControls } from "@react-three/drei";
-import { useRef, useState } from "react";
+import { useRef, useState, type MutableRefObject } from "react";
 import { MOUSE } from "three";
 import { TavernModel } from "./TavernModel";
 
 interface HeroSceneCanvasProps {
   modelPath: string;
   lowPowerMode: boolean;
+  joystick?: { x: number; y: number };
   onLoaded: () => void;
   onFailed: () => void;
 }
@@ -52,8 +53,9 @@ function IntroCameraController({ enabled, from, to, lookAt, durationSec, onDone 
   return null;
 }
 
-export function HeroSceneCanvas({ modelPath, lowPowerMode, onLoaded, onFailed }: HeroSceneCanvasProps) {
+export function HeroSceneCanvas({ modelPath, lowPowerMode, joystick, onLoaded, onFailed }: HeroSceneCanvasProps) {
   const [introDone, setIntroDone] = useState(false);
+  const joystickOffset = useRef({ x: 0, y: 0 });
 
   const introFrom: Vec3 = [0, 0.34, 2.95];
   const introTo: Vec3 = [0, 0.35, 2.65];
@@ -85,6 +87,12 @@ export function HeroSceneCanvas({ modelPath, lowPowerMode, onLoaded, onFailed }:
         durationSec={3.4}
         onDone={() => setIntroDone(true)}
       />
+      <JoystickCameraController
+        enabled={Boolean(joystick) && (lowPowerMode || introDone)}
+        input={joystick ?? { x: 0, y: 0 }}
+        focusTarget={focusTarget}
+        offsetRef={joystickOffset}
+      />
       <OrbitControls
         enabled={lowPowerMode || introDone}
         enablePan
@@ -106,4 +114,33 @@ export function HeroSceneCanvas({ modelPath, lowPowerMode, onLoaded, onFailed }:
       />
     </Canvas>
   );
+}
+
+interface JoystickCameraControllerProps {
+  enabled: boolean;
+  input: { x: number; y: number };
+  focusTarget: Vec3;
+  offsetRef: MutableRefObject<{ x: number; y: number }>;
+}
+
+function JoystickCameraController({ enabled, input, focusTarget, offsetRef }: JoystickCameraControllerProps) {
+  const camera = useThree((state) => state.camera);
+
+  useFrame((_, delta) => {
+    if (!enabled) {
+      return;
+    }
+    const damping = Math.min(1, delta * 6);
+    const tx = input.x * 0.22;
+    const ty = input.y * 0.12;
+    offsetRef.current.x += (tx - offsetRef.current.x) * damping;
+    offsetRef.current.y += (ty - offsetRef.current.y) * damping;
+    camera.lookAt(
+      focusTarget[0] + offsetRef.current.x,
+      focusTarget[1] + offsetRef.current.y,
+      focusTarget[2]
+    );
+  });
+
+  return null;
 }

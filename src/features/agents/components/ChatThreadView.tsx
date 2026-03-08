@@ -7,14 +7,25 @@ interface ChatThreadViewProps {
 }
 
 export function ChatThreadView({ messages, agentHandle }: ChatThreadViewProps) {
-  const endRef = useRef<HTMLDivElement | null>(null);
+  const threadRef = useRef<HTMLElement | null>(null);
+  const hasMounted = useRef(false);
 
   useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+    const thread = threadRef.current;
+    if (!thread) {
+      return;
+    }
+
+    if (!hasMounted.current) {
+      hasMounted.current = true;
+      return;
+    }
+
+    thread.scrollTo({ top: thread.scrollHeight, behavior: "smooth" });
   }, [messages]);
 
   return (
-    <section className="chat-thread" aria-label={`Conversation with ${agentHandle}`}>
+    <section ref={threadRef} className="chat-thread" aria-label={`Conversation with ${agentHandle}`}>
       {messages.map((message) => (
         <article key={message.id} className={`chat-bubble chat-bubble--${message.role}`}>
           <p>{message.content}</p>
@@ -25,7 +36,6 @@ export function ChatThreadView({ messages, agentHandle }: ChatThreadViewProps) {
           </footer>
         </article>
       ))}
-      <div ref={endRef} />
     </section>
   );
 }

@@ -139,6 +139,55 @@ a {
   padding: 4px 10px;
 }
 
+.hero3d-joystick-wrap {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  z-index: 6;
+  display: none;
+  gap: 4px;
+  pointer-events: auto;
+}
+
+.hero3d-joystick-label {
+  margin: 0;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #405346;
+  background: rgba(252, 247, 239, 0.88);
+  border: 1px solid rgba(48, 64, 54, 0.2);
+  border-radius: 999px;
+  padding: 2px 8px;
+  width: fit-content;
+}
+
+.hero3d-joystick {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  touch-action: none;
+  border: 1px solid rgba(48, 64, 54, 0.26);
+  background:
+    radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.06) 52%),
+    rgba(231, 221, 203, 0.7);
+}
+
+.hero3d-joystick-knob {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(48, 64, 54, 0.3);
+  background:
+    radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.68) 0%, rgba(255, 255, 255, 0.2) 48%),
+    linear-gradient(180deg, #d4c4a8 0%, #bda785 100%);
+  box-shadow: 0 6px 12px rgba(49, 39, 26, 0.18);
+  transition: transform 50ms linear;
+}
+
 .hero3d-fallback {
   background:
     radial-gradient(circle at 20% 0%, rgba(243, 180, 102, 0.35) 0%, rgba(243, 180, 102, 0) 40%),
@@ -642,6 +691,10 @@ a {
 
   .hero3d-overlay__content {
     max-width: 100%;
+  }
+
+  .hero3d-joystick-wrap {
+    display: grid;
   }
 
   .hero3d-overlay h1 {
