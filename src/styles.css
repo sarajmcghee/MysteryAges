@@ -260,6 +260,30 @@ a {
   box-shadow: 0 0 0 2px rgba(108, 199, 231, 0.18);
 }
 
+.auth-gate {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.auth-card {
+  width: min(560px, 100%);
+  border: 1px solid var(--line);
+  border-radius: calc(var(--radius) + 2px);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  padding: 20px;
+}
+
+.auth-warning {
+  color: #8b2f2f;
+  background: #ffe6e6;
+  border: 1px solid #f4b2b2;
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
 .phase-row {
   display: flex;
   gap: 8px;

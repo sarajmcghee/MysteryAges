@@ -13,14 +13,26 @@ function getApiBaseUrl(): string {
   return apiBaseUrl;
 }
 
+function normalizeRequired(value: string, label: string): string {
+  const normalized = value.trim();
+  if (!normalized) {
+    throw new Error(`${label} is required`);
+  }
+  return normalized;
+}
+
 export async function sendAgentMessage(
   agentId: string,
   message: string
 ): Promise<AgentChatResponse> {
-  const res = await fetch(`${getApiBaseUrl()}/api/agents/${agentId}/chat`, {
+  const normalizedAgentId = normalizeRequired(agentId, "agentId");
+  const normalizedMessage = normalizeRequired(message, "message");
+
+  const res = await fetch(`${getApiBaseUrl()}/api/agents/${normalizedAgentId}/chat`, {
     method: "POST",
+    credentials: "include",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ message })
+    body: JSON.stringify({ message: normalizedMessage })
   });
 
   if (!res.ok) {
@@ -29,5 +41,13 @@ export async function sendAgentMessage(
   }
 
   const payload = (await res.json()) as AgentChatResponse;
+  if (payload.agentId !== normalizedAgentId) {
+    throw new Error(`Mismatched agent response: expected ${normalizedAgentId}, got ${payload.agentId}`);
+  }
+
+  if (!payload.reply?.trim()) {
+    throw new Error("Empty assistant reply");
+  }
+
   return payload;
 }

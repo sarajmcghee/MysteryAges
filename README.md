@@ -107,6 +107,19 @@ npm install
 npm run dev
 ```
 
+### Configure GitHub Access Gate
+Create `.env.local`:
+```bash
+VITE_API_BASE_URL=http://localhost:8787
+VITE_ALLOWED_GITHUB_LOGIN=your-github-username
+```
+
+Required backend endpoints:
+- `GET /auth/session` -> `{ authenticated: boolean, user?: { id, login, name?, avatarUrl? } }`
+- `GET /auth/github/login?redirect=<url>` -> starts GitHub OAuth flow and returns to the app
+
+The React app blocks access unless `user.login` matches `VITE_ALLOWED_GITHUB_LOGIN`.
+
 ### Build Production Bundle
 ```bash
 npm run build
@@ -139,6 +152,34 @@ At a glance:
 3. Keep `Blocked` and `Unassigned` header badges near zero.
 4. Resolve blockers in `BlockerPanel` with explicit resolution notes.
 5. Use `RaidTimeline` to confirm every key decision is logged.
+
+## Agent Chat Mode
+
+### What it is
+- A frontend chat client layer for agent-targeted messages.
+- Implemented as:
+  - `src/features/agents/services/chatService.ts`
+  - `src/features/agents/hooks/useAgentChat.ts`
+- Sends `POST {VITE_API_BASE_URL}/api/agents/:agentId/chat` with `{ message }`.
+- Returns `{ agentId, reply, timestamp }` from the backend.
+
+### How to use it
+1. Set `VITE_API_BASE_URL` in your Vite env (for example `.env.local`).
+2. Call `useAgentChat(agentId)` in a component.
+3. Invoke `send(message)` and render:
+- `isSending` for loading state
+- `error` for failed requests
+- returned `reply` payload on success
+
+### Thread-per-agent behavior
+- Request routing is per-agent via `:agentId` in the URL.
+- The frontend does not currently store chat transcripts or thread state.
+- Any true thread history is backend-owned (or future UI/state work).
+
+Auth note:
+- Chat requests include cookies (`credentials: include`) so your backend can enforce GitHub-authenticated access before using any API key-backed service.
+
+For contributor details, see `docs/agent-chat-mode.md`.
 
 ## Dogma Theme Quick Tuning
 

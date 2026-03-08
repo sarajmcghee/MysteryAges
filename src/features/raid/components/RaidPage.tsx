@@ -9,6 +9,7 @@ import { BlockerPanel } from "./BlockerPanel";
 import { TaskAssignmentModal } from "./TaskAssignmentModal";
 import { RaidTimeline } from "./RaidTimeline";
 import { HeroDogma } from "./HeroDogma";
+import { AgentChatShell } from "../../agents/components/AgentChatShell";
 import type { ID } from "../types/raid";
 
 export function RaidPage() {
@@ -77,6 +78,8 @@ export function RaidPage() {
           <RaidTimeline />
         </div>
       </section>
+
+      <AgentChatShell agents={agents} />
 
       <TaskAssignmentModal
         isOpen={isAssignOpen}
