@@ -5,12 +5,13 @@ function normalizeUrl(url: string): string {
 }
 
 function getApiBaseUrl(): string {
-  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
-  if (!apiBaseUrl) {
-    throw new Error("Missing VITE_API_BASE_URL");
+  const configured = import.meta.env.VITE_API_BASE_URL?.trim();
+  if (configured) {
+    return normalizeUrl(configured);
   }
 
-  return normalizeUrl(apiBaseUrl);
+  // Safe fallback for local/dev setups where the API is served from the same origin.
+  return normalizeUrl(window.location.origin);
 }
 
 export function getAllowedGitHubLogin(): string {
