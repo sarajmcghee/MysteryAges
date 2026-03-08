@@ -15,59 +15,23 @@ interface HeroSceneCanvasProps {
 
 type Vec3 = [number, number, number];
 
-interface IntroCameraControllerProps {
-  enabled: boolean;
-  from: Vec3;
-  to: Vec3;
-  lookAt: Vec3;
-  durationSec: number;
-  onDone: () => void;
-}
-
-function IntroCameraController({ enabled, from, to, lookAt, durationSec, onDone }: IntroCameraControllerProps) {
-  const camera = useThree((state) => state.camera);
-  const elapsed = useRef(0);
-  const completed = useRef(false);
-
-  useFrame((_, delta) => {
-    if (!enabled || completed.current) {
-      return;
-    }
-
-    elapsed.current += delta;
-    const t = Math.min(1, elapsed.current / durationSec);
-    const eased = 1 - (1 - t) * (1 - t);
-
-    camera.position.set(
-      from[0] + (to[0] - from[0]) * eased,
-      from[1] + (to[1] - from[1]) * eased,
-      from[2] + (to[2] - from[2]) * eased
-    );
-    camera.lookAt(lookAt[0], lookAt[1], lookAt[2]);
-
-    if (t >= 1) {
-      completed.current = true;
-      onDone();
-    }
-  });
-
-  return null;
-}
-
 export function HeroSceneCanvas({ modelPath, lowPowerMode, isMobile = false, joystick, onLoaded, onFailed }: HeroSceneCanvasProps) {
-  const [introDone, setIntroDone] = useState(false);
+  const [cameraReady, setCameraReady] = useState(false);
   const joystickOffset = useRef({ x: 0, z: 0 });
 
-  const introFrom: Vec3 = [0, 0.42, 4.35];
-  const introTo: Vec3 = [0, 0.4, 3.95];
-  const focusTarget: Vec3 = [0, 0.05, 1.2];
+  const startPosition: Vec3 = [0, 0.42, 3.45];
+  const focusTarget: Vec3 = [0, 0.06, 0.75];
 
   return (
     <Canvas
       className="hero3d-canvas"
-      camera={{ position: introFrom, fov: lowPowerMode ? 66 : 62 }}
+      camera={{ position: startPosition, fov: lowPowerMode ? 66 : 62 }}
       dpr={lowPowerMode ? [1, 1.2] : [1, 1.5]}
       frameloop="demand"
+      onCreated={({ camera }) => {
+        camera.lookAt(focusTarget[0], focusTarget[1], focusTarget[2]);
+        setCameraReady(true);
+      }}
       gl={{
         antialias: !lowPowerMode,
         alpha: true,
@@ -80,23 +44,15 @@ export function HeroSceneCanvas({ modelPath, lowPowerMode, isMobile = false, joy
       <directionalLight position={[3.5, 6, 4]} intensity={1.3} />
       <directionalLight position={[-4, 2, -2]} intensity={0.45} color="#f8c18b" />
       <TavernModel modelPath={modelPath} onLoaded={onLoaded} onFailed={onFailed} />
-      <IntroCameraController
-        enabled={!lowPowerMode && !introDone}
-        from={introFrom}
-        to={introTo}
-        lookAt={focusTarget}
-        durationSec={3.4}
-        onDone={() => setIntroDone(true)}
-      />
       <JoystickCameraController
-        enabled={Boolean(joystick) && (lowPowerMode || introDone)}
+        enabled={Boolean(joystick) && cameraReady}
         input={joystick ?? { x: 0, y: 0 }}
-        basePosition={introTo}
+        basePosition={startPosition}
         focusTarget={focusTarget}
         offsetRef={joystickOffset}
       />
       <OrbitControls
-        enabled={!isMobile && (lowPowerMode || introDone)}
+        enabled={!isMobile && cameraReady}
         enablePan
         enableZoom
         enableRotate
