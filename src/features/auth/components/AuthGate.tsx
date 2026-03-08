@@ -5,6 +5,9 @@ import { createGitHubLoginUrl } from "../services/authService";
 
 export function AuthGate({ children }: PropsWithChildren) {
   const { state, user, error, allowedLogin, refresh } = useGitHubAuth();
+  const login = () => {
+    window.location.assign(createGitHubLoginUrl());
+  };
 
   if (state === "authenticated") {
     return <>{children}</>;
@@ -12,58 +15,52 @@ export function AuthGate({ children }: PropsWithChildren) {
 
   return (
     <main className="auth-gate">
-      <section className="auth-card stack-sm" aria-live="polite">
-        <h1>Party Leader Access</h1>
-        <p className="muted">Sign in with GitHub to access the raid control panel.</p>
+      <section className="auth-card" aria-live="polite">
+        <div className="auth-scene" aria-hidden="true">
+          <img className="auth-scene__image" src={`${import.meta.env.BASE_URL}dogma-reference.jpg`} alt="" />
+          <div className="auth-scene__veil" />
+          <p className="auth-scene__caption">You approach the Lantern & Ledger...</p>
+        </div>
 
-        {state === "loading" ? <p>Checking session...</p> : null}
+        <div className="stack-sm">
+          <p className="auth-kicker">Party Leader Access</p>
+          <h1>The tavern door is open. Your table is waiting.</h1>
+          <p className="muted">
+            Continue with GitHub Login and step inside. The hearth is warm, the backlog is not.
+          </p>
 
-        {state === "unauthenticated" ? (
-          <>
-            <p className="muted">Only the approved GitHub account can enter.</p>
-            <Button
-              onClick={() => {
-                window.location.assign(createGitHubLoginUrl());
-              }}
-            >
-              Sign In With GitHub
-            </Button>
-          </>
-        ) : null}
+          {state === "loading" ? <p className="muted">Booting the lanterns and checking your seal...</p> : null}
 
-        {state === "unauthorized" ? (
-          <>
-            <p role="alert" className="auth-warning">
-              Signed in as <strong>{user?.login}</strong>, but access is restricted to <strong>{allowedLogin}</strong>.
-            </p>
-            <Button
-              variant="secondary"
-              onClick={() => {
-                window.location.assign(createGitHubLoginUrl());
-              }}
-            >
-              Sign In With Different Account
-            </Button>
-          </>
-        ) : null}
-
-        {state === "error" ? (
-          <>
-            <p role="alert" className="auth-warning">{error ?? "Authentication is unavailable."}</p>
+          {state === "unauthenticated" ? (
             <div className="row-wrap gap-xs">
-              <Button variant="secondary" onClick={() => void refresh()}>
-                Retry
-              </Button>
-              <Button
-                onClick={() => {
-                  window.location.assign(createGitHubLoginUrl());
-                }}
-              >
-                Continue To GitHub Sign-In
-              </Button>
+              <Button onClick={login}>Continue With GitHub Login</Button>
+              <p className="auth-hint">Approved party members only.</p>
             </div>
-          </>
-        ) : null}
+          ) : null}
+
+          {state === "unauthorized" ? (
+            <>
+              <p role="alert" className="auth-warning">
+                Signed in as <strong>{user?.login}</strong>, but this booth is reserved for <strong>{allowedLogin}</strong>.
+              </p>
+              <Button variant="secondary" onClick={login}>
+                Try Another GitHub Account
+              </Button>
+            </>
+          ) : null}
+
+          {state === "error" ? (
+            <>
+              <p role="alert" className="auth-warning">{error ?? "Authentication is unavailable."}</p>
+              <div className="row-wrap gap-xs">
+                <Button variant="secondary" onClick={() => void refresh()}>
+                  Retry
+                </Button>
+                <Button onClick={login}>Continue With GitHub Login</Button>
+              </div>
+            </>
+          ) : null}
+        </div>
       </section>
     </main>
   );

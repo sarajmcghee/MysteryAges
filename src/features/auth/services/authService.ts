@@ -48,3 +48,18 @@ export async function fetchAuthSession(): Promise<AuthSessionResponse> {
 
   return (await response.json()) as AuthSessionResponse;
 }
+
+export async function logout(): Promise<void> {
+  const response = await fetch(`${getApiBaseUrl()}/auth/logout`, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      Accept: "application/json"
+    }
+  });
+
+  if (!response.ok) {
+    const text = await response.text();
+    throw new Error(`Logout failed: ${response.status} ${text}`);
+  }
+}
