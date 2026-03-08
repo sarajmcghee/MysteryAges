@@ -58,6 +58,8 @@ a {
   position: relative;
   border-radius: 24px;
   overflow: hidden;
+  touch-action: pan-y;
+  overscroll-behavior-x: none;
   margin-bottom: 16px;
   border: 1px solid color-mix(in srgb, #2f3f31 24%, transparent);
   box-shadow: 0 20px 36px rgba(39, 34, 22, 0.22);
@@ -71,6 +73,7 @@ a {
   inset: 0;
   width: 100% !important;
   height: 100% !important;
+  touch-action: pan-y;
 }
 
 .hero3d-overlay {

@@ -7,6 +7,7 @@ import { TavernModel } from "./TavernModel";
 interface HeroSceneCanvasProps {
   modelPath: string;
   lowPowerMode: boolean;
+  isMobile?: boolean;
   joystick?: { x: number; y: number };
   onLoaded: () => void;
   onFailed: () => void;
@@ -53,18 +54,18 @@ function IntroCameraController({ enabled, from, to, lookAt, durationSec, onDone 
   return null;
 }
 
-export function HeroSceneCanvas({ modelPath, lowPowerMode, joystick, onLoaded, onFailed }: HeroSceneCanvasProps) {
+export function HeroSceneCanvas({ modelPath, lowPowerMode, isMobile = false, joystick, onLoaded, onFailed }: HeroSceneCanvasProps) {
   const [introDone, setIntroDone] = useState(false);
   const joystickOffset = useRef({ x: 0, y: 0 });
 
   const introFrom: Vec3 = [0, 0.34, 2.95];
-  const introTo: Vec3 = [0, 0.35, 2.65];
+  const introTo: Vec3 = [0, 0.35, 2.82];
   const focusTarget: Vec3 = [0, 0.05, 1.2];
 
   return (
     <Canvas
       className="hero3d-canvas"
-      camera={{ position: introFrom, fov: lowPowerMode ? 52 : 48 }}
+      camera={{ position: introFrom, fov: lowPowerMode ? 54 : 50 }}
       dpr={lowPowerMode ? [1, 1.2] : [1, 1.5]}
       frameloop="demand"
       gl={{
@@ -94,7 +95,7 @@ export function HeroSceneCanvas({ modelPath, lowPowerMode, joystick, onLoaded, o
         offsetRef={joystickOffset}
       />
       <OrbitControls
-        enabled={lowPowerMode || introDone}
+        enabled={!isMobile && (lowPowerMode || introDone)}
         enablePan
         enableZoom
         enableRotate

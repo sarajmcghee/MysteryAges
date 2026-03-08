@@ -78,6 +78,7 @@ export function Hero3D({
       <HeroSceneCanvas
         modelPath={modelPath}
         lowPowerMode={resolvedLowPowerMode}
+        isMobile={isMobile}
         {...(mobileJoystickEnabled ? { joystick } : {})}
         onLoaded={() => setModelLoaded(true)}
         onFailed={() => setModelFailed(true)}
