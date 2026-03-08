@@ -125,6 +125,11 @@ Local-only bypass:
 - Set `VITE_AUTH_GATE_ENABLED=false` in `.env.local` to skip the auth gate during local testing.
 - Keep it `true` for deployed builds.
 
+Guest mode:
+- The auth screen includes `Continue as Guest`.
+- Guest mode allows UI access but disables remote AI/backend chat calls.
+- Guest mode persists in `localStorage` and is cleared automatically when using GitHub Login.
+
 ### Build Production Bundle
 ```bash
 npm run build

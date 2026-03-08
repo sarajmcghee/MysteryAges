@@ -62,10 +62,13 @@ a {
   border: 1px solid color-mix(in srgb, #2f3f31 24%, transparent);
   box-shadow: 0 20px 36px rgba(39, 34, 22, 0.22);
   background: #17110d;
+  height: clamp(360px, 62vh, 760px);
   min-height: 420px;
 }
 
 .hero3d-canvas {
+  position: absolute !important;
+  inset: 0;
   width: 100% !important;
   height: 100% !important;
 }
@@ -74,13 +77,22 @@ a {
   position: absolute;
   inset: 0;
   display: grid;
-  align-content: end;
-  gap: 8px;
+  align-content: start;
+  justify-items: start;
   padding: clamp(14px, 3vw, 28px);
   pointer-events: none;
-  background:
-    linear-gradient(180deg, rgba(14, 10, 8, 0.1) 0%, rgba(14, 10, 8, 0.72) 74%, rgba(14, 10, 8, 0.88) 100%),
-    radial-gradient(circle at 14% 8%, rgba(255, 250, 241, 0.18) 0%, rgba(255, 250, 241, 0) 35%);
+}
+
+.hero3d-overlay__content {
+  display: grid;
+  gap: 8px;
+  max-width: min(620px, 92%);
+  padding: clamp(10px, 1.8vw, 16px) clamp(12px, 2.3vw, 20px);
+  border-radius: 14px;
+  border: 1px solid rgba(238, 216, 179, 0.22);
+  background: linear-gradient(145deg, rgba(21, 14, 11, 0.7) 0%, rgba(21, 14, 11, 0.48) 100%);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.24);
+  backdrop-filter: blur(2px);
 }
 
 .hero3d-kicker {
@@ -619,13 +631,17 @@ a {
   }
 
   .hero3d {
+    height: clamp(260px, 48vh, 420px);
     min-height: 280px;
     border-radius: 18px;
   }
 
   .hero3d-overlay {
-    align-content: start;
     padding-top: 16px;
+  }
+
+  .hero3d-overlay__content {
+    max-width: 100%;
   }
 
   .hero3d-overlay h1 {

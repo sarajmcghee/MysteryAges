@@ -1,15 +1,19 @@
-import type { PropsWithChildren } from "react";
+import { type PropsWithChildren, useState } from "react";
 import { Button } from "../../../shared/ui/primitives";
 import { useGitHubAuth } from "../hooks/useGitHubAuth";
 import { createGitHubLoginUrl } from "../services/authService";
+import { isGuestModeEnabled, setGuestModeEnabled } from "../state/guestMode";
 
 export function AuthGate({ children }: PropsWithChildren) {
   const { state, user, error, allowedLogin, refresh } = useGitHubAuth();
+  const [isGuestMode, setIsGuestMode] = useState(() => isGuestModeEnabled());
   const login = () => {
+    setGuestModeEnabled(false);
+    setIsGuestMode(false);
     window.location.assign(createGitHubLoginUrl());
   };
 
-  if (state === "authenticated") {
+  if (state === "authenticated" || isGuestMode) {
     return <>{children}</>;
   }
 
@@ -36,6 +40,15 @@ export function AuthGate({ children }: PropsWithChildren) {
           {state === "unauthenticated" ? (
             <div className="row-wrap gap-xs">
               <Button onClick={login}>Continue With GitHub Login</Button>
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  setGuestModeEnabled(true);
+                  setIsGuestMode(true);
+                }}
+              >
+                Continue as Guest
+              </Button>
               <p className="auth-hint">Approved party members only.</p>
             </div>
           ) : null}
@@ -48,6 +61,15 @@ export function AuthGate({ children }: PropsWithChildren) {
               <Button variant="secondary" onClick={login}>
                 Try Another GitHub Account
               </Button>
+              <Button
+                variant="ghost"
+                onClick={() => {
+                  setGuestModeEnabled(true);
+                  setIsGuestMode(true);
+                }}
+              >
+                Continue as Guest
+              </Button>
             </>
           ) : null}
 
@@ -59,6 +81,15 @@ export function AuthGate({ children }: PropsWithChildren) {
                   Retry
                 </Button>
                 <Button onClick={login}>Continue With GitHub Login</Button>
+                <Button
+                  variant="ghost"
+                  onClick={() => {
+                    setGuestModeEnabled(true);
+                    setIsGuestMode(true);
+                  }}
+                >
+                  Continue as Guest
+                </Button>
               </div>
             </>
           ) : null}

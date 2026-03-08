@@ -1,4 +1,5 @@
 import type { AgentChatApi, AgentChatApiRequest, AgentChatApiResponse } from "../types/chat";
+import { isGuestModeEnabled } from "../../auth/state/guestMode";
 
 function getApiBaseUrl(): string {
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
@@ -29,6 +30,10 @@ export class HttpAgentChatApi implements AgentChatApi {
   constructor(private readonly apiBaseUrl: string = getApiBaseUrl()) {}
 
   async sendMessage(request: AgentChatApiRequest): Promise<AgentChatApiResponse> {
+    if (isGuestModeEnabled()) {
+      throw new Error("Guest mode enabled: remote AI calls are disabled.");
+    }
+
     const res = await fetch(`${this.apiBaseUrl}/api/agents/${request.agent.id}/chat`, {
       method: "POST",
       credentials: "include",

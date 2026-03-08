@@ -1,3 +1,5 @@
+import { isGuestModeEnabled } from "../../auth/state/guestMode";
+
 export interface AgentChatResponse {
   agentId: string;
   reply: string;
@@ -25,6 +27,10 @@ export async function sendAgentMessage(
   agentId: string,
   message: string
 ): Promise<AgentChatResponse> {
+  if (isGuestModeEnabled()) {
+    throw new Error("Guest mode enabled: remote AI calls are disabled.");
+  }
+
   const normalizedAgentId = normalizeRequired(agentId, "agentId");
   const normalizedMessage = normalizeRequired(message, "message");
 

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Group } from "three";
+import { Box3, Group, Vector3 } from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { useThree } from "@react-three/fiber";
 
@@ -42,6 +42,21 @@ export function TavernModel({ modelPath, onLoaded, onFailed }: TavernModelProps)
         }
 
         const clone = gltf.scene.clone(true);
+        const bounds = new Box3().setFromObject(clone);
+        const size = new Vector3();
+        const center = new Vector3();
+        bounds.getSize(size);
+        bounds.getCenter(center);
+
+        const maxDim = Math.max(size.x, size.y, size.z) || 1;
+        const targetMaxDim = 6.4;
+        const scale = targetMaxDim / maxDim;
+
+        clone.position.sub(center);
+        clone.scale.setScalar(scale);
+        // Lift model so floor sits near y=0 regardless of source origin.
+        clone.position.y += (size.y * scale) / 2 - 1.08;
+
         loadedRef.current = clone;
         setScene(clone);
         onLoaded();

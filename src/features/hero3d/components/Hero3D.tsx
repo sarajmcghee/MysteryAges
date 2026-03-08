@@ -20,7 +20,7 @@ export function Hero3D({
   className,
   heading = "Gather the party",
   subheading = "Finish the raid before sundown.",
-  modelPath = "/models/tavern/tavern.glb",
+  modelPath = "/models/tavern/cozy-tavern-first-floor-2.glb",
   minHeight = 420,
   lowPowerMode,
   onLoadStateChange
@@ -73,4 +73,3 @@ export function Hero3D({
     </section>
   );
 }
-
