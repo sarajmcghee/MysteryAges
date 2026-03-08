@@ -59,6 +59,17 @@
   cursor: pointer;
 }
 
+.agent-chat-list__identity {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-width: 0;
+}
+
+.agent-chat-list__identity > span {
+  min-width: 0;
+}
+
 .agent-chat-list__item strong {
   display: block;
   color: var(--dogma-ink, #26302b);
@@ -108,6 +119,12 @@
   justify-content: space-between;
   gap: 0.7rem;
   align-items: center;
+}
+
+.agent-chat-main__identity {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
 }
 
 .agent-chat-main__head h3 {

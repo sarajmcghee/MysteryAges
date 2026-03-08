@@ -3,6 +3,7 @@ import { useRaidStore } from "../state/raidStore";
 import { selectAgentLoad, selectAgents, selectTasks } from "../state/selectors";
 import { Badge, Button, Card } from "../../../shared/ui/primitives";
 import type { AgentState, ID } from "../types/raid";
+import { AgentAvatar } from "../../agents/components/AgentAvatar";
 
 const states: AgentState[] = ["idle", "scouting", "working", "blocked", "completed"];
 
@@ -24,7 +25,10 @@ export function AgentRoster({ onOpenAssign }: AgentRosterProps) {
         {agents.map((agent) => (
           <article key={agent.id} className="agent-card">
             <div className="row-between">
-              <h4>{agent.handle}</h4>
+              <div className="agent-card__identity">
+                <AgentAvatar agentId={agent.id} handle={agent.handle} role={agent.role} size={52} loading="lazy" />
+                <h4>{agent.handle}</h4>
+              </div>
               <Badge tone={agent.state === "blocked" ? "danger" : "brand"}>{agent.state}</Badge>
             </div>
             <p className="muted">{agent.personality}</p>

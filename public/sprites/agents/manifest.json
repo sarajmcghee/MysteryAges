@@ -1,0 +1,67 @@
+[
+  {
+    "id": "architect",
+    "name": "Architect Agent",
+    "spriteIdle": "/sprites/agents/architect-idle.png",
+    "portrait": "/sprites/agents/architect-portrait.png",
+    "dominantColor": "#6a8d79",
+    "roleClass": "Mage/Planner",
+    "variants": {
+      "idleAlt": "/sprites/agents/architect-idle-alt.png",
+      "idleWeb": "/sprites/agents/architect-idle-256.png",
+      "portraitWeb": "/sprites/agents/architect-portrait-256.png"
+    }
+  },
+  {
+    "id": "ui",
+    "name": "UI Agent",
+    "spriteIdle": "/sprites/agents/ui-idle.png",
+    "portrait": "/sprites/agents/ui-portrait.png",
+    "dominantColor": "#7fa58c",
+    "roleClass": "Artificer",
+    "variants": {
+      "idleAlt": "/sprites/agents/ui-idle-alt.png",
+      "idleWeb": "/sprites/agents/ui-idle-256.png",
+      "portraitWeb": "/sprites/agents/ui-portrait-256.png"
+    }
+  },
+  {
+    "id": "debug",
+    "name": "Debug Agent",
+    "spriteIdle": "/sprites/agents/debug-idle.png",
+    "portrait": "/sprites/agents/debug-portrait.png",
+    "dominantColor": "#5e7e69",
+    "roleClass": "Rogue/Hunter",
+    "variants": {
+      "idleAlt": "/sprites/agents/debug-idle-alt.png",
+      "idleWeb": "/sprites/agents/debug-idle-256.png",
+      "portraitWeb": "/sprites/agents/debug-portrait-256.png"
+    }
+  },
+  {
+    "id": "qa",
+    "name": "QA Agent",
+    "spriteIdle": "/sprites/agents/qa-idle.png",
+    "portrait": "/sprites/agents/qa-portrait.png",
+    "dominantColor": "#7b9270",
+    "roleClass": "Paladin/Inspector",
+    "variants": {
+      "idleAlt": "/sprites/agents/qa-idle-alt.png",
+      "idleWeb": "/sprites/agents/qa-idle-256.png",
+      "portraitWeb": "/sprites/agents/qa-portrait-256.png"
+    }
+  },
+  {
+    "id": "writer",
+    "name": "Writer Agent",
+    "spriteIdle": "/sprites/agents/writer-idle.png",
+    "portrait": "/sprites/agents/writer-portrait.png",
+    "dominantColor": "#917359",
+    "roleClass": "Bard/Scribe",
+    "variants": {
+      "idleAlt": "/sprites/agents/writer-idle-alt.png",
+      "idleWeb": "/sprites/agents/writer-idle-256.png",
+      "portraitWeb": "/sprites/agents/writer-portrait-256.png"
+    }
+  }
+]

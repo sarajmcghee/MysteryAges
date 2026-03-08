@@ -5,6 +5,7 @@ import { ChatThreadView } from "./ChatThreadView";
 import { ChatComposer } from "./ChatComposer";
 import { ChatControls } from "./ChatControls";
 import { useChatStore } from "../state/chatStore";
+import { AgentAvatar } from "./AgentAvatar";
 import "./agent-chat.css";
 
 interface AgentChatShellProps {
@@ -57,9 +58,18 @@ export function AgentChatShell({ agents }: AgentChatShellProps) {
 
         <div className="agent-chat-main">
           <header className="agent-chat-main__head">
-            <div>
-              <h3>{selectedAgent.handle}</h3>
-              <p>{selectedAgent.role} · {selectedAgent.state}</p>
+            <div className="agent-chat-main__identity">
+              <AgentAvatar
+                agentId={selectedAgent.id}
+                handle={selectedAgent.handle}
+                role={selectedAgent.role}
+                size={44}
+                loading="eager"
+              />
+              <div>
+                <h3>{selectedAgent.handle}</h3>
+                <p>{selectedAgent.role} · {selectedAgent.state}</p>
+              </div>
             </div>
             <ChatControls
               onReset={() => resetThread(selectedAgent)}

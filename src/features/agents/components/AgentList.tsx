@@ -1,4 +1,5 @@
 import type { Agent } from "../../raid/types/raid";
+import { AgentAvatar } from "./AgentAvatar";
 
 interface AgentListProps {
   agents: Agent[];
@@ -23,9 +24,12 @@ export function AgentList({ agents, selectedAgentId, unreadByAgent, onSelect }: 
                 onClick={() => onSelect(agent.id)}
                 aria-current={active ? "true" : undefined}
               >
-                <span>
-                  <strong>{agent.handle}</strong>
-                  <small>{agent.role} · {agent.state}</small>
+                <span className="agent-chat-list__identity">
+                  <AgentAvatar agentId={agent.id} handle={agent.handle} role={agent.role} size={40} loading="lazy" />
+                  <span>
+                    <strong>{agent.handle}</strong>
+                    <small>{agent.role} · {agent.state}</small>
+                  </span>
                 </span>
                 {unread > 0 ? <span className="agent-chat-list__badge">{unread}</span> : null}
               </button>

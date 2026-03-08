@@ -10,6 +10,7 @@ import { TaskAssignmentModal } from "./TaskAssignmentModal";
 import { RaidTimeline } from "./RaidTimeline";
 import { HeroDogma } from "./HeroDogma";
 import { AgentChatShell } from "../../agents/components/AgentChatShell";
+import { AgentAvatar } from "../../agents/components/AgentAvatar";
 import type { ID } from "../types/raid";
 
 export function RaidPage() {
@@ -66,6 +67,26 @@ export function RaidPage() {
           </Button>
         </div>
       </header>
+
+      <section className="party-lineup" aria-label="Party lineup">
+        {agents.map((agent) => (
+          <article key={agent.id} className="party-lineup__member">
+            <AgentAvatar
+              agentId={agent.id}
+              handle={agent.handle}
+              role={agent.role}
+              variant="idle"
+              size={56}
+              loading="lazy"
+              className="party-lineup__avatar"
+            />
+            <div className="party-lineup__meta">
+              <strong>{agent.handle}</strong>
+              <small>{agent.role}</small>
+            </div>
+          </article>
+        ))}
+      </section>
 
       <section className="raid-layout">
         <div className="left-column stack-md">
