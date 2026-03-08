@@ -16,7 +16,7 @@ export function HeroDogma({
   blockers,
   onPrimaryAction,
   onSecondaryAction,
-  illustrationSrc = "/dogma-reference.jpg"
+  illustrationSrc = `${import.meta.env.BASE_URL}dogma-reference.jpg`
 }: HeroDogmaProps) {
   const [imageFailed, setImageFailed] = useState(false);
   const hasImage = Boolean(illustrationSrc) && !imageFailed;
