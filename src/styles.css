@@ -100,6 +100,16 @@ a {
   backdrop-filter: blur(2px);
 }
 
+.hero3d-copy {
+  margin: -2px 0 16px;
+  border: 1px solid color-mix(in srgb, #2f3f31 20%, transparent);
+  border-radius: 18px;
+  background: linear-gradient(180deg, #faf6ed 0%, #f2ecdf 100%);
+  padding: 12px 14px;
+  display: grid;
+  gap: 6px;
+}
+
 .hero3d-kicker {
   text-transform: uppercase;
   letter-spacing: 0.09em;
@@ -153,20 +163,6 @@ a {
   display: none;
   gap: 4px;
   pointer-events: auto;
-}
-
-.hero3d-joystick-label {
-  margin: 0;
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: #405346;
-  background: rgba(252, 247, 239, 0.88);
-  border: 1px solid rgba(48, 64, 54, 0.2);
-  border-radius: 999px;
-  padding: 2px 8px;
-  width: fit-content;
 }
 
 .hero3d-joystick {
@@ -695,12 +691,14 @@ a {
     padding-top: 16px;
   }
 
-  .hero3d-overlay__content {
-    max-width: 100%;
-  }
-
   .hero3d-joystick-wrap {
     display: grid;
+  }
+
+  .hero3d-copy {
+    margin-top: 8px;
+    border-radius: 14px;
+    padding: 10px 12px;
   }
 
   .hero3d-overlay h1 {

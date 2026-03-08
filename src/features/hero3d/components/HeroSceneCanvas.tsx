@@ -56,10 +56,10 @@ function IntroCameraController({ enabled, from, to, lookAt, durationSec, onDone 
 
 export function HeroSceneCanvas({ modelPath, lowPowerMode, isMobile = false, joystick, onLoaded, onFailed }: HeroSceneCanvasProps) {
   const [introDone, setIntroDone] = useState(false);
-  const joystickOffset = useRef({ x: 0, y: 0 });
+  const joystickOffset = useRef({ x: 0, z: 0 });
 
-  const introFrom: Vec3 = [0, 0.48, 5.2];
-  const introTo: Vec3 = [0, 0.46, 4.85];
+  const introFrom: Vec3 = [0, 0.42, 4.35];
+  const introTo: Vec3 = [0, 0.4, 3.95];
   const focusTarget: Vec3 = [0, 0.05, 1.2];
 
   return (
@@ -91,6 +91,7 @@ export function HeroSceneCanvas({ modelPath, lowPowerMode, isMobile = false, joy
       <JoystickCameraController
         enabled={Boolean(joystick) && (lowPowerMode || introDone)}
         input={joystick ?? { x: 0, y: 0 }}
+        basePosition={introTo}
         focusTarget={focusTarget}
         offsetRef={joystickOffset}
       />
@@ -120,11 +121,12 @@ export function HeroSceneCanvas({ modelPath, lowPowerMode, isMobile = false, joy
 interface JoystickCameraControllerProps {
   enabled: boolean;
   input: { x: number; y: number };
+  basePosition: Vec3;
   focusTarget: Vec3;
-  offsetRef: MutableRefObject<{ x: number; y: number }>;
+  offsetRef: MutableRefObject<{ x: number; z: number }>;
 }
 
-function JoystickCameraController({ enabled, input, focusTarget, offsetRef }: JoystickCameraControllerProps) {
+function JoystickCameraController({ enabled, input, basePosition, focusTarget, offsetRef }: JoystickCameraControllerProps) {
   const camera = useThree((state) => state.camera);
 
   useFrame((_, delta) => {
@@ -132,14 +134,19 @@ function JoystickCameraController({ enabled, input, focusTarget, offsetRef }: Jo
       return;
     }
     const damping = Math.min(1, delta * 6);
-    const tx = input.x * 0.22;
-    const ty = input.y * 0.12;
+    const tx = input.x * 0.95;
+    const tz = -input.y * 1.25;
     offsetRef.current.x += (tx - offsetRef.current.x) * damping;
-    offsetRef.current.y += (ty - offsetRef.current.y) * damping;
+    offsetRef.current.z += (tz - offsetRef.current.z) * damping;
+    camera.position.set(
+      basePosition[0] + offsetRef.current.x,
+      basePosition[1],
+      basePosition[2] + offsetRef.current.z
+    );
     camera.lookAt(
-      focusTarget[0] + offsetRef.current.x,
-      focusTarget[1] + offsetRef.current.y,
-      focusTarget[2]
+      focusTarget[0] + offsetRef.current.x * 0.45,
+      focusTarget[1],
+      focusTarget[2] - 0.6
     );
   });
 

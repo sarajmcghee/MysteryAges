@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { HeroFallback } from "./HeroFallback";
-import { HeroOverlay } from "./HeroOverlay";
 import { HeroSceneCanvas } from "./HeroSceneCanvas";
 import { useWebGLSupport } from "../hooks/useWebGLSupport";
 
@@ -70,65 +69,74 @@ export function Hero3D({
   }
 
   return (
-    <section
-      className={`hero3d ${className ?? ""}`.trim()}
-      style={{ minHeight }}
-      aria-label="Tavern hero"
-    >
-      <HeroSceneCanvas
-        modelPath={modelPath}
-        lowPowerMode={resolvedLowPowerMode}
-        isMobile={isMobile}
-        {...(mobileJoystickEnabled ? { joystick } : {})}
-        onLoaded={() => setModelLoaded(true)}
-        onFailed={() => setModelFailed(true)}
-      />
-      <HeroOverlay heading={heading} subheading={subheading} />
-      {mobileJoystickEnabled ? (
-        <div className="hero3d-joystick-wrap">
-          <p className="hero3d-joystick-label">Move scene</p>
-          <div
-            className="hero3d-joystick"
-            onPointerDown={(event) => {
-              event.preventDefault();
-              setJoystickPointerId(event.pointerId);
-              event.currentTarget.setPointerCapture(event.pointerId);
-              updateJoystickFromPointer(event.clientX, event.clientY, event.currentTarget, setJoystick);
-            }}
-            onPointerMove={(event) => {
-              if (joystickPointerId !== event.pointerId) {
-                return;
-              }
-              updateJoystickFromPointer(event.clientX, event.clientY, event.currentTarget, setJoystick);
-            }}
-            onPointerUp={(event) => {
-              if (joystickPointerId !== event.pointerId) {
-                return;
-              }
-              setJoystickPointerId(null);
-              setJoystick({ x: 0, y: 0 });
-              event.currentTarget.releasePointerCapture(event.pointerId);
-            }}
-            onPointerCancel={() => {
-              setJoystickPointerId(null);
-              setJoystick({ x: 0, y: 0 });
-            }}
-            onPointerLeave={() => {
-              setJoystickPointerId(null);
-              setJoystick({ x: 0, y: 0 });
-            }}
-          >
-            <span
-              className="hero3d-joystick-knob"
-              style={{
-                transform: `translate(${joystick.x * JOYSTICK_RADIUS}px, ${joystick.y * JOYSTICK_RADIUS}px)`
+    <>
+      <section
+        className={`hero3d ${className ?? ""}`.trim()}
+        style={{ minHeight }}
+        aria-label="Tavern hero"
+      >
+        <HeroSceneCanvas
+          modelPath={modelPath}
+          lowPowerMode={resolvedLowPowerMode}
+          isMobile={isMobile}
+          {...(mobileJoystickEnabled ? { joystick } : {})}
+          onLoaded={() => setModelLoaded(true)}
+          onFailed={() => setModelFailed(true)}
+        />
+        {mobileJoystickEnabled ? (
+          <div className="hero3d-joystick-wrap">
+            <div
+              className="hero3d-joystick"
+              onPointerDown={(event) => {
+                event.preventDefault();
+                setJoystickPointerId(event.pointerId);
+                event.currentTarget.setPointerCapture(event.pointerId);
+                updateJoystickFromPointer(event.clientX, event.clientY, event.currentTarget, setJoystick);
               }}
-            />
+              onPointerMove={(event) => {
+                if (joystickPointerId !== event.pointerId) {
+                  return;
+                }
+                updateJoystickFromPointer(event.clientX, event.clientY, event.currentTarget, setJoystick);
+              }}
+              onPointerUp={(event) => {
+                if (joystickPointerId !== event.pointerId) {
+                  return;
+                }
+                setJoystickPointerId(null);
+                setJoystick({ x: 0, y: 0 });
+                event.currentTarget.releasePointerCapture(event.pointerId);
+              }}
+              onPointerCancel={() => {
+                setJoystickPointerId(null);
+                setJoystick({ x: 0, y: 0 });
+              }}
+              onPointerLeave={() => {
+                setJoystickPointerId(null);
+                setJoystick({ x: 0, y: 0 });
+              }}
+            >
+              <span
+                className="hero3d-joystick-knob"
+                style={{
+                  transform: `translate(${joystick.x * JOYSTICK_RADIUS}px, ${joystick.y * JOYSTICK_RADIUS}px)`
+                }}
+              />
+            </div>
           </div>
-        </div>
-      ) : null}
-      {!modelLoaded ? <p className="hero3d-loading">Loading tavern scene...</p> : null}
-    </section>
+        ) : null}
+        {!modelLoaded ? <p className="hero3d-loading">Loading tavern scene...</p> : null}
+      </section>
+
+      <section className="hero3d-copy" aria-label="Hero heading">
+        <p className="hero3d-kicker">Party Leader Access</p>
+        <h1>{heading}</h1>
+        <p>{subheading}</p>
+        <small className="hero3d-attribution">
+          Cozy Tavern - First Floor 2 by Nick Slough [CC-BY] via Poly Pizza
+        </small>
+      </section>
+    </>
   );
 }
 
